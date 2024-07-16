@@ -23,7 +23,6 @@ public class Kurs {
         module = new ArrayList<>();
         teilnehmers = new ArrayList<>();
         trainers = new ArrayList<>();
-        Test = new ArrayList<>();
     }
 
     public void addModul(Modul modul) {
