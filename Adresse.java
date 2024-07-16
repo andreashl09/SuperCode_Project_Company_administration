@@ -8,4 +8,8 @@ public class Adresse {
         this.ort = newOrt;
         this.plz = newPlz;
     }
+
+    public String printAdresse() {
+        return "Strasse: " + this.strasse + " Ort: " + this.ort + " Plz: " + this.plz;
+    }
 }

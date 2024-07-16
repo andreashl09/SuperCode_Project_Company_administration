@@ -1,4 +1,3 @@
-import java.lang.classfile.TypeAnnotation.LocalVarTarget;
 import java.time.LocalDate;
 
 public class Teilnehmer extends Person{
@@ -6,7 +5,7 @@ public class Teilnehmer extends Person{
     private LocalDate vermitteltAm;
 
     public Teilnehmer(String newVorname, String newNachname, Adresse newAdresse) {
-        super(newVorname, newNachname);
+        super(newVorname, newNachname, newAdresse);
     }
     public boolean isHatJob() {
         return hatJob;
