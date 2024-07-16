@@ -1,6 +1,10 @@
+import java.time.LocalDate;
+
 public class Main {
 
     public static void main(String[] args) {
+        Bildungsunternehmen unternehmen1 = new Bildungsunternehmen("Supercode", "Andreas", LocalDate.now(), "IT");
+
         Adresse addresse1 = new Adresse("Zobletitzstraße 89b", "Berlin", 13403);
         Mitarbeiter mitarbeiter1 = new Mitarbeiter("Marcus", "Slomka", addresse1);
 
@@ -9,20 +13,17 @@ public class Main {
 
         System.out.println(mitarbeiter1.printPerson());
         System.out.println(teilnehmer1.printPerson());
+        
+        unternehmen1.addAufgabe(new Aufgabe("Variablen und Datentypen", "Java Grundlagen", 1));
+        unternehmen1.addAufgabe(new Aufgabe("Operatoren und Ausdrücke","Java Grundlagen", 1));
+        unternehmen1.addAufgabe(new Aufgabe("Kontrollstrukturen (if, switch)", "Java Grundlagen", 2));
+        unternehmen1.addAufgabe(new Aufgabe("Schleifen (for, while, do-while)", "Java Grundlagen", 2));
 
-        Modul java1 = new Modul("Java Grundlagen", "Java");
+        Kurs kurs1 = new Kurs("Java lernen", LocalDate.now(), unternehmen1);
+        Modul java1 = new Modul("Java Grundlagen", "Java", 6);
 
-        Aufgabe aufgabeJava1 = new Aufgabe("Variablen und Datentypen", 1);
-        Aufgabe aufgabeJava2 = new Aufgabe("Operatoren und Ausdrücke", 1);
-        Aufgabe aufgabeJava3 = new Aufgabe("Kontrollstrukturen (if, switch)", 2);
-        Aufgabe aufgabeJava4 = new Aufgabe("Schleifen (for, while, do-while)", 2);
-
-        java1.addAufgabe(aufgabeJava1);
-        java1.addAufgabe(aufgabeJava2);
-        java1.addAufgabe(aufgabeJava3);
-        java1.addAufgabe(aufgabeJava4);
-
-        System.out.println(java1.getModulTage());
+        kurs1.addModul(java1);
+        // System.out.println(java1.getModulTage());
 
     }
 }

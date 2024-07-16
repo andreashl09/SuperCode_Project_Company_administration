@@ -6,8 +6,10 @@ public class Modul {
     private ArrayList<Aufgabe> aufgaben;
     private int modulTage = 0;
     private String brauchLizenz;
+ 
 
-    public Modul(String name, String brauchLizenz) {
+    public Modul(String name, String brauchLizenz, int modulTage) {
+        setModulTage(modulTage);
         this.name = name;
         this.brauchLizenz = brauchLizenz;
         aufgaben = new ArrayList<>();
@@ -46,5 +48,10 @@ public class Modul {
         this.brauchLizenz = brauchLizenz;
     }
 
-    
+    public void setModulTage(int modulTage) {
+        if (modulTage <= 0)
+            throw new IllegalArgumentException("Modultage können nicht kleiner 0 sein!");
+        this.modulTage = modulTage;
+    }
+
 }
