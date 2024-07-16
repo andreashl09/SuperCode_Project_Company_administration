@@ -6,8 +6,8 @@ public class Bildungsunternehmen {
     private String inhaber;
     private LocalDate gruendungdatum;
     private String unternehmensKategorie;
-    private ArrayList<Person> kundenListe;
-    private ArrayList<Person> mitarbeiterListe;
+    private ArrayList<Teilnehmer> kundenListe;
+    private ArrayList<Mitarbeiter> mitarbeiterListe;
     private ArrayList<Aufgabe> aufgabenPool;
     private ArrayList<Kurs> kursListe;
 
@@ -22,11 +22,11 @@ public class Bildungsunternehmen {
         kursListe = new ArrayList<>();
     }
 
-    public ArrayList<Person> getKundenListe() {
+    public ArrayList<Teilnehmer> getKundenListe() {
         return kundenListe;
     }
 
-    public ArrayList<Person> getMitarbeiterListe() {
+    public ArrayList<Mitarbeiter> getMitarbeiterListe() {
         return mitarbeiterListe;
     }
 

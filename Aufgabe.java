@@ -2,13 +2,13 @@ public class Aufgabe {
 
     private String name;
     private int aufgabeTage;
-    private final int MAXTAGE = 3;
-    private String kategorie;
+    private final int MAX_TAGE = 3;
+    private Kategorie kategorie;
 
-    public Aufgabe(String name, String kategorie, int aufgabeTage) {
+    public Aufgabe(String name, Kategorie kategorie, int aufgabeTage) {
         this.kategorie = kategorie;
         this.name = name;
-       setAufgabeTage(aufgabeTage);
+        setAufgabeTage(aufgabeTage);
     }
 
     public String getName() {
@@ -23,17 +23,15 @@ public class Aufgabe {
         return aufgabeTage;
     }
 
-    public String getKategorie() {
+    public Kategorie getKategorie() {
         return kategorie;
     }
 
     public void setAufgabeTage(int aufgabeTage) {
-        if (aufgabeTage > MAXTAGE || aufgabeTage <= 0)
+        if (aufgabeTage > MAX_TAGE || aufgabeTage <= 0)
             throw new IllegalArgumentException("Angabe der Tage falsch!");
 
         this.aufgabeTage = aufgabeTage;
     }
 
-    
-    
 }

@@ -5,10 +5,10 @@ public class Modul {
     private String name;
     private ArrayList<Aufgabe> aufgaben;
     private int modulTage = 0;
-    private String brauchLizenz;
+    private Kategorie brauchLizenz;
  
 
-    public Modul(String name, String brauchLizenz, int modulTage) {
+    public Modul(String name, Kategorie brauchLizenz, int modulTage) {
         setModulTage(modulTage);
         this.name = name;
         this.brauchLizenz = brauchLizenz;
@@ -40,11 +40,11 @@ public class Modul {
         return modulTage;
     }
 
-    public String getBrauchLizenz() {
+    public Kategorie getBrauchLizenz() {
         return brauchLizenz;
     }
 
-    public void setBrauchLizenz(String brauchLizenz) {
+    public void setBrauchLizenz(Kategorie brauchLizenz) {
         this.brauchLizenz = brauchLizenz;
     }
 
