@@ -12,7 +12,7 @@ public class Kurs {
     private int anzahlKurstage = 0;
     private ArrayList<Modul> module;
     private ArrayList<Teilnehmer> teilnehmers;
-    // private ArrayList<Mitarbeiter> trainers;
+    private ArrayList<Mitarbeiter> mitarbeiterse;
     private final int MAX_TEILNEHMER = 8;
     private Bildungsunternehmen unternehmen;
     private Kategorie kategorie;
@@ -27,7 +27,7 @@ public class Kurs {
         this.endeKurs = startKurs;
         module = new ArrayList<>();
         teilnehmers = new ArrayList<>();
-        // trainers = new ArrayList<>();
+        mitarbeiterse = new ArrayList<>();
     }
 
     public LocalDate getStartKurs() {
@@ -51,41 +51,43 @@ public class Kurs {
     }
 
     public void addModul(Modul modul) {
-        int tageCounter = 0;
-        Kategorie suchKategorie = kategorie;
-        tageCounter = getAufgabenPool(tageCounter, suchKategorie);
-        if (tageCounter < modul.getModulTage())
+        // Prüfung, ob ausreichend Aufgaben für das Modul vorhanden sind,
+        // Startdatum des Moduls wird festgelegt, Enddatum des Moduls wird berechnet,
+        // Ermittlung eines verfügbaren Mitarbeiters + direkte Zuweisung zum Modul,
+        // falls kein freier Mitarbeiter verfügbar ist, kann das Modul nicht zugewiesen
+        // werden
+        // Neues Enddatum für den Kurs wird berechnet und gesetzt,
+        // neue Buchung wird erzeugt, Mitarbeiter bekommt diese Buchung in seine Liste
+        // geschrieben
+        if (aufgabenUmfangInTage() < modul.getModulTage())
             throw new IllegalArgumentException("Nicht genügend Aufgaben für das Modul!");
-        LocalDate startModul;
-        if (anzahlKurstage == 0)
-            startModul = this.endeKurs;
-        else
-            startModul = this.endeKurs.plusDays(1);
-        // bestimme das Startdatum vom Modul
-        LocalDate endeModul = berechneModulEnde(modul, startModul); // bestimme das Ende vom
-        // Modul
-        Mitarbeiter zugeteilterMitarbeiter = ermittleMitarbeiter(modul, startModul, endeModul); // ermittle den
-                                                                                                // verfügbaren
-                                                                                                // Mitarbeiter
-        modul.setZugeteilterMitarbeiter(zugeteilterMitarbeiter); // Mitarbeiter wird dem Modul zugeordnet
-        this.endeKurs = endeModul; // legen das neue Kursende fest
-        this.module.add(modul); // fügen das Modul dem Kurs hinzu
-        modul.setStartModul(startModul); // geben dem Modul ein Startdatum
-        modul.setEndeModul(endeModul);// geben dem Modul ein Enddatum
-        Buchung buchung = new Buchung(startModul, endeModul, modul.getName()); // erstellen neue Buchung für den
-                                                                               // Mitarbeiter
-        zugeteilterMitarbeiter.addBuchung(buchung);// erstellte Buchung wird der Liste Buchungen Mitarbeiter hinzugefügt
+
+        LocalDate startModul = (anzahlKurstage == 0) // Wenn die Kurslänge noch 0 ist, dann ist startmodul = start Kurs
+                ? this.endeKurs
+                : this.endeKurs.plusDays(1); // sonst wird zu startKurs immer 1 tag zuaddiert
+        LocalDate endeModul = berechneModulEnde(modul, startModul);
+        Mitarbeiter zugeteilterMitarbeiter = ermittleMitarbeiter(modul, startModul, endeModul);
+        modul.setZugeteilterMitarbeiter(zugeteilterMitarbeiter);
+        this.endeKurs = endeModul;
+        this.module.add(modul);
+        modul.setStartModul(startModul);
+        modul.setEndeModul(endeModul);
+
+        Buchung buchung = new Buchung(startModul, endeModul, modul.getName());
+        zugeteilterMitarbeiter.addBuchung(buchung);
+        mitarbeiterse.add(zugeteilterMitarbeiter);
         anzahlKurstage += modul.getModulTage();
     }
 
-    private int getAufgabenPool(int tageCounter, Kategorie suchKategorie) {
+    private int aufgabenUmfangInTage() {
         ArrayList<Aufgabe> aufgabenPool = unternehmen.getAufgabenPool();
+        int summeTage = 0;
         for (Aufgabe aufgabe : aufgabenPool) {
-            Kategorie kategorie = aufgabe.getKategorie();
-            if (suchKategorie.equals(kategorie))
-                tageCounter += aufgabe.getAufgabeTage();
+            Kategorie kategorieAufgabe = aufgabe.getKategorie();
+            if (kategorie.equals(kategorieAufgabe))
+                summeTage += aufgabe.getAufgabeTage();
         }
-        return tageCounter;
+        return summeTage;
     }
 
     public void addTeilnehmer(Teilnehmer teilnehmer) {
@@ -95,8 +97,8 @@ public class Kurs {
     }
 
     public LocalDate berechneModulEnde(Modul modul, LocalDate startModul) {
-        LocalDate endeModul = startModul.plusDays(1);
-        for (int i = 1; i < modul.getModulTage() - 1; i++) {
+        LocalDate endeModul = startModul;
+        for (int i = 1; i < modul.getModulTage(); i++) {
             endeModul = endeModul.plusDays(endeModul.getDayOfWeek() == DayOfWeek.FRIDAY ? 3 : 1);
         }
         return endeModul;
@@ -120,8 +122,8 @@ public class Kurs {
         for (Mitarbeiter mitarbeiter : ermittleLinzensiertenTrainer(modul)) {
             if (mitarbeiter.getBuchungen().size() == 0)
                 return mitarbeiter;
-            for (Buchung buchung : mitarbeiter.getBuchungen()) {
 
+            for (Buchung buchung : mitarbeiter.getBuchungen()) {
                 LocalDate buchungStart = buchung.getStartDatum();
                 LocalDate buchungEnde = buchung.getEndeDatum();
 
