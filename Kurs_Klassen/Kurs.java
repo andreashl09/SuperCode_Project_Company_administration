@@ -109,7 +109,7 @@ public class Kurs {
         return endeModul;
     }
 
-    public ArrayList<Mitarbeiter> ermittleLinzensiertenTrainer(Modul modul) {
+    public ArrayList<Mitarbeiter> ermittleLinzensiertenMitarbeiter(Modul modul) {
         ArrayList<Mitarbeiter> verfuegbareMitarbeiter = new ArrayList<>();
         for (Mitarbeiter mitarbeiter : unternehmen.getMitarbeiterListe()) {
             ArrayList<Kategorie> mitarbeiterLizenzen = mitarbeiter.getLizenzliste();
@@ -124,7 +124,7 @@ public class Kurs {
     public Mitarbeiter ermittleMitarbeiter(Modul modul, LocalDate startModul, LocalDate endeModul) {
         Mitarbeiter zugeteilterMitarbeiter = null;
         int anzahlMinKurse = 0;
-        for (Mitarbeiter mitarbeiter : ermittleLinzensiertenTrainer(modul)) {
+        for (Mitarbeiter mitarbeiter : ermittleLinzensiertenMitarbeiter(modul)) {
             if (mitarbeiter.getBuchungen().isEmpty())
                 return mitarbeiter;
 

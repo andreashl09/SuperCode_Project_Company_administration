@@ -8,11 +8,14 @@ import Kurs_Klassen.*;
 import Person_Klassen.*;
 
 public class Bildungsunternehmen {
+    public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
+    public static final String ANSI_RESET = "\u001B[0m";
+
     private String name;
     private String inhaber;
     private LocalDate gruendungdatum;
     private UnternehmensKategorie unternehmensKategorie;
-    private ArrayList<Teilnehmer> kundenListe;
+    private ArrayList<Teilnehmer> teilnehmerListe;
     private ArrayList<Mitarbeiter> mitarbeiterListe;
     private ArrayList<Aufgabe> aufgabenPool;
     private ArrayList<Kurs> kursListe;
@@ -22,14 +25,14 @@ public class Bildungsunternehmen {
         this.inhaber = inhaber;
         this.gruendungdatum = gruendungdatum;
         this.unternehmensKategorie = kategorie;
-        kundenListe = new ArrayList<>();
+        teilnehmerListe = new ArrayList<>();
         mitarbeiterListe = new ArrayList<>();
         aufgabenPool = new ArrayList<>();
         kursListe = new ArrayList<>();
     }
 
-    public ArrayList<Teilnehmer> getKundenListe() {
-        return kundenListe;
+    public ArrayList<Teilnehmer> getTeilnehmerListe() {
+        return teilnehmerListe;
     }
 
     public ArrayList<Mitarbeiter> getMitarbeiterListe() {
@@ -49,7 +52,7 @@ public class Bildungsunternehmen {
     }
 
     public void addTeilnehmer(Teilnehmer teilnehmer) {
-        this.kundenListe.add(teilnehmer);
+        this.teilnehmerListe.add(teilnehmer);
     }
 
     public ArrayList<Kurs> getKursListe() {
@@ -73,8 +76,22 @@ public class Bildungsunternehmen {
     }
 
     public void printTeilnehmerListe() {
-        for (Teilnehmer teilnehmer : kundenListe) {
+        for (Teilnehmer teilnehmer : teilnehmerListe) {
             System.out.println(teilnehmer.teilnehmerDaten());
+        }
+    }
+
+    // ---
+    public void zeigeMitarbeiterDiagramm() {
+        for (Mitarbeiter mitarbeiter : mitarbeiterListe) {
+
+            int gebuchteKurse = mitarbeiter.getBuchungen().size();
+            for (int i = 0; i < gebuchteKurse * 3; i++) {
+
+                System.out.print(ANSI_WHITE_BACKGROUND + " " + ANSI_RESET);
+                System.out.print(mitarbeiter.getNachname() + "\n");
+                System.out.println("");
+            }
         }
     }
 

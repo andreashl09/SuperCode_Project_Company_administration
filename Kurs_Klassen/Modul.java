@@ -12,18 +12,18 @@ public class Modul {
     private String name;
     private ArrayList<Aufgabe> aufgaben;
     private int modulTage = 0;
-    private Kategorie brauchLizenz;
+    private Kategorie benoetigteLizenz;
     private Mitarbeiter zugeteilterMitarbeiter;
     private LocalDate startModul;
     private LocalDate endeModul;
  
 
-    public Modul(String name, Kategorie brauchLizenz, int modulTage) {
+    public Modul(String name, Kategorie benoetigteLizenz, int modulTage) {
         this.id = idCounter;
         idCounter++;
         setModulTage(modulTage);
         this.name = name;
-        this.brauchLizenz = brauchLizenz;
+        this.benoetigteLizenz = benoetigteLizenz;
         aufgaben = new ArrayList<>();
     }
 
@@ -57,11 +57,11 @@ public class Modul {
     }
 
     public Kategorie getBrauchLizenz() {
-        return brauchLizenz;
+        return benoetigteLizenz;
     }
 
-    public void setBrauchLizenz(Kategorie brauchLizenz) {
-        this.brauchLizenz = brauchLizenz;
+    public void setBrauchLizenz(Kategorie benoetigteLizenz) {
+        this.benoetigteLizenz = benoetigteLizenz;
     }
 
     public void setModulTage(int modulTage) {

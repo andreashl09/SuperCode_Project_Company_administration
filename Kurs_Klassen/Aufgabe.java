@@ -33,7 +33,6 @@ public class Aufgabe {
     public void setAufgabeTage(int aufgabeTage) {
         if (aufgabeTage > MAX_TAGE || aufgabeTage <= 0)
             throw new IllegalArgumentException("Angabe der Tage falsch!");
-
         this.aufgabeTage = aufgabeTage;
     }
 
