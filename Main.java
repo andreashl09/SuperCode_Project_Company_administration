@@ -1,9 +1,15 @@
 import java.time.LocalDate;
 
+import Unternehmen_Klassen.*;
+import Person_Klassen.*;
+import Enum.*;
+import Kurs_Klassen.*;
+
 public class Main {
 
     public static void main(String[] args) {
-        Bildungsunternehmen unternehmen1 = new Bildungsunternehmen("Supercode", "Andreas", LocalDate.now(), UnternehmensKategorie.IT);
+        Bildungsunternehmen unternehmen1 = new Bildungsunternehmen("Supercode", "Andreas", LocalDate.now(),
+                UnternehmensKategorie.IT);
         // Mitarbeiter 1
         Adresse addresse1 = new Adresse("Bekannten Str. 12z", "Bielefeld", 45793);
         Mitarbeiter mitarbeiter1 = new Mitarbeiter("Jochen", "Schlotzmann", addresse1);
@@ -87,9 +93,10 @@ public class Main {
         kurs2.addModul(java4);
 
         // for (Mitarbeiter mitarbeiter : unternehmen1.mitarbeiter.getBuchungen()) {
-        //     mitarbeiter10.printBuchungen();
+        // mitarbeiter10.printBuchungen();
         // }
 
+        unternehmen1.zeigeMitarbeiterDiagramm();
         System.out.println(kurs1.getStartKurs());
         System.out.println(kurs1.getEndeKurs());
 

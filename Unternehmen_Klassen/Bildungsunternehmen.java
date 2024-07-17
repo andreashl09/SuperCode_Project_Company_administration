@@ -1,7 +1,9 @@
 package Unternehmen_Klassen;
 
+import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import Enum.*;
 import Kurs_Klassen.*;
@@ -83,16 +85,31 @@ public class Bildungsunternehmen {
 
     // ---
     public void zeigeMitarbeiterDiagramm() {
+        ClearConsole();
+        System.out.println("Mitarbeiter Auswertung: \n");
+        mitarbeiterListe.sort(
+                Comparator.comparingInt((Mitarbeiter mitarbeiter) -> mitarbeiter.getBuchungen().size()).reversed());
         for (Mitarbeiter mitarbeiter : mitarbeiterListe) {
-
+            // System.out.println(mitarbeiter.getNachname() + " " +
+            // mitarbeiter.getBuchungen().size());
             int gebuchteKurse = mitarbeiter.getBuchungen().size();
-            for (int i = 0; i < gebuchteKurse * 3; i++) {
-
-                System.out.print(ANSI_WHITE_BACKGROUND + " " + ANSI_RESET);
-                System.out.print(mitarbeiter.getNachname() + "\n");
-                System.out.println("");
+            if (gebuchteKurse == 0) {
+                System.out.print("|");
+            } else {
+                for (int i = 0; i < gebuchteKurse * 3; i++) {
+                    
+                    System.out.print(ANSI_WHITE_BACKGROUND + " " + ANSI_RESET);
+                }
             }
+            
+            System.out.print(" " + mitarbeiter.getVorname() + " " + mitarbeiter.getNachname());
+            System.out.print(" | Kurse: " + gebuchteKurse+ "\n");
+            System.out.println("");
         }
     }
 
+    public static void ClearConsole() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
 }
