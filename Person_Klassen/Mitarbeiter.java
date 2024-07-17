@@ -1,5 +1,8 @@
+package Person_Klassen;
 
 import java.util.ArrayList;
+
+import Enum.Kategorie;
 
 public class Mitarbeiter extends Person {
     private static int idCounter;
@@ -27,6 +30,14 @@ public class Mitarbeiter extends Person {
 
     public int getId() {
         return id;
+    }
+
+    public void mitarbeiterDaten() {
+        System.out.println(this.printPerson());
+        System.out.println("Folgende Lizenzen:");
+        for (Kategorie kategorie : lizenzliste) {
+            System.out.println(kategorie);
+        }
     }
 
 }

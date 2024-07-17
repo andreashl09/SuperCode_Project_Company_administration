@@ -1,3 +1,6 @@
+package Kurs_Klassen;
+import Enum.*;
+
 public class Aufgabe {
 
     private String name;

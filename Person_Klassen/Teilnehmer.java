@@ -1,3 +1,4 @@
+package Person_Klassen;
 import java.time.LocalDate;
 
 public class Teilnehmer extends Person {
@@ -22,8 +23,13 @@ public class Teilnehmer extends Person {
     public int getId() {
         return id;
     }
-    public void erfolgreichVermittelt(LocalDate newVermitteltAm){
+
+    public void erfolgreichVermittelt(LocalDate newVermitteltAm) {
         this.vermitteltAm = newVermitteltAm;
         this.hatJob = true;
+    }
+    
+    public String teilnehmerDaten() {
+        return "Vorname: " + this.getVorname() + " Nachname: " + this.getNachname();
     }
 }

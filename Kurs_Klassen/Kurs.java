@@ -1,7 +1,12 @@
+package Kurs_Klassen;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
+
+import Enum.*;
+import Person_Klassen.*;
+import Unternehmen_Klassen.*;
 
 public class Kurs {
     private static int kursIdCounter;
@@ -120,7 +125,7 @@ public class Kurs {
         Mitarbeiter zugeteilterMitarbeiter = null;
         int anzahlMinKurse = 0;
         for (Mitarbeiter mitarbeiter : ermittleLinzensiertenTrainer(modul)) {
-            if (mitarbeiter.getBuchungen().size() == 0)
+            if (mitarbeiter.getBuchungen().isEmpty())
                 return mitarbeiter;
 
             for (Buchung buchung : mitarbeiter.getBuchungen()) {

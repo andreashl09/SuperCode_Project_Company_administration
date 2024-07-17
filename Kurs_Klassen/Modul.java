@@ -1,5 +1,9 @@
+package Kurs_Klassen;
 import java.time.LocalDate;
 import java.util.ArrayList;
+
+import Enum.Kategorie;
+import Person_Klassen.Mitarbeiter;
 
 public class Modul {
 

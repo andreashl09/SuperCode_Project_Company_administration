@@ -1,5 +1,11 @@
+package Unternehmen_Klassen;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
+
+import Enum.*;
+import Kurs_Klassen.*;
+import Person_Klassen.*;
 
 public class Bildungsunternehmen {
     private String name;
@@ -42,9 +48,34 @@ public class Bildungsunternehmen {
         this.mitarbeiterListe.add(mitarbeiter);
     }
 
+    public void addTeilnehmer(Teilnehmer teilnehmer) {
+        this.kundenListe.add(teilnehmer);
+    }
+
     public ArrayList<Kurs> getKursListe() {
         return kursListe;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getInhaber() {
+        return inhaber;
+    }
+
+    public LocalDate getGruendungdatum() {
+        return gruendungdatum;
+    }
+
+    public UnternehmensKategorie getUnternehmensKategorie() {
+        return unternehmensKategorie;
+    }
+
+    public void printTeilnehmerListe() {
+        for (Teilnehmer teilnehmer : kundenListe) {
+            System.out.println(teilnehmer.teilnehmerDaten());
+        }
+    }
 
 }
