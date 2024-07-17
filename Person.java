@@ -1,9 +1,13 @@
+import java.time.LocalDate;
+import java.util.ArrayList;
+
 public class Person {
     private static int idCounter;
     private int id;
     private String vorname;
     private String nachname;
     private Adresse adresse;
+    private ArrayList<Buchung> buchungen;
 
     public Person(String newVorname, String newNachname, Adresse newAdresse) {
         this.vorname = newVorname;
@@ -11,6 +15,7 @@ public class Person {
         this.adresse = newAdresse;
         this.id = idCounter;
         idCounter++;
+        buchungen = new ArrayList<>();
     }
 
     public String getVorname() {
@@ -27,5 +32,13 @@ public class Person {
 
     public String printPerson() {
         return "Vorname: " + this.vorname + " Nachname: " + this.nachname + " Adresse: " + this.adresse.printAdresse();
+    }
+
+    public ArrayList<Buchung> getBuchungen() {
+        return this.buchungen;
+    }
+
+    public void addBuchung(Buchung buchung) {
+        this.buchungen.add(buchung);
     }
 }

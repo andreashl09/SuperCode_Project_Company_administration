@@ -6,6 +6,7 @@ public class Modul {
     private ArrayList<Aufgabe> aufgaben;
     private int modulTage = 0;
     private Kategorie brauchLizenz;
+    private Mitarbeiter zugeteilterMitarbeiter;
  
 
     public Modul(String name, Kategorie brauchLizenz, int modulTage) {
@@ -53,5 +54,15 @@ public class Modul {
             throw new IllegalArgumentException("Modultage können nicht kleiner 0 sein!");
         this.modulTage = modulTage;
     }
+
+    public void setZugeteilterMitarbeiter(Mitarbeiter zugeteilterMitarbeiter) {
+        this.zugeteilterMitarbeiter = zugeteilterMitarbeiter;
+    }
+
+    public Mitarbeiter getZugeteilterMitarbeiter() {
+        return zugeteilterMitarbeiter;
+    }
+    
+    
 
 }

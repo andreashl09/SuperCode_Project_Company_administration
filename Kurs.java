@@ -1,3 +1,5 @@
+import java.lang.classfile.TypeAnnotation.LocalVarTarget;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -22,6 +24,7 @@ public class Kurs {
         this.unternehmen = unternehmen;
         this.name = name;
         this.startKurs = startKurs;
+        this.endeKurs = startKurs;
         module = new ArrayList<>();
         teilnehmers = new ArrayList<>();
         // trainers = new ArrayList<>();
@@ -33,9 +36,9 @@ public class Kurs {
         tageCounter = getAufgabenPool(tageCounter, suchKategorie);
         if (tageCounter < modul.getModulTage())
             throw new IllegalArgumentException("Nicht genügend Aufgaben für das Modul!");
+        
+        ermittleMitarbeiter(modul);
         this.module.add(modul);
-        ermittleTrainer(startKurs, endeKurs, modul);
-
     }
 
     private int getAufgabenPool(int tageCounter, Kategorie suchKategorie) {
@@ -54,20 +57,46 @@ public class Kurs {
         teilnehmers.add(teilnehmer);
     }
 
-    public void berechneEndDatum() {
-        this.endeKurs = startKurs.plusDays(anzahlKurstage);
+    public LocalDate berechneModulEnde(Modul modul) {
+        LocalDate endeModul = endeKurs;
+        for (int i = 0; i < modul.getModulTage() - 1; i++) {
+            endeModul = endeModul.plusDays(endeModul.getDayOfWeek() == DayOfWeek.FRIDAY ? 3 : 1);
+        }
+        return endeModul;
     }
 
-    public void ermittleTrainer(LocalDate start, LocalDate end, Modul modul) {
+    public ArrayList<Mitarbeiter> ermittleLinzensiertenTrainer(Modul modul) {
         ArrayList<Mitarbeiter> verfuegbareMitarbeiter = new ArrayList<>();
         for (Mitarbeiter mitarbeiter : unternehmen.getMitarbeiterListe()) {
             ArrayList<Kategorie> mitarbeiterLizenzen = mitarbeiter.getLizenzliste();
             for (Kategorie linzenz : mitarbeiterLizenzen) {
-                if (linzenz != modul.getBrauchLizenz())
-                    return;
-                else
+                if (linzenz == modul.getBrauchLizenz())
                     verfuegbareMitarbeiter.add(mitarbeiter);
             }
         }
+        return verfuegbareMitarbeiter;
+    }
+
+    public Mitarbeiter ermittleMitarbeiter (Modul modul) {
+        Mitarbeiter zugeteilterMitarbeiter = null;
+        int anzahlMinKurse = 0;
+        
+        for (Mitarbeiter mitarbeiter : ermittleLinzensiertenTrainer(modul)) {
+            for (Buchung buchung : mitarbeiter.getBuchungen()) {
+                if (mitarbeiter.getBuchungen().size() == 0)
+                    return mitarbeiter;
+                    
+                if (endeKurs.isBefore(buchung.getStartDatum()) && startKurs.isAfter(buchung.getEndeDatum())) {
+                    int anzahlKurse = mitarbeiter.getBuchungen().size();
+                    if (anzahlKurse < anzahlMinKurse) {
+                        anzahlMinKurse = anzahlKurse;
+                        zugeteilterMitarbeiter = mitarbeiter;
+                    }
+                }
+            }
+        } 
+        if (zugeteilterMitarbeiter == null)
+            throw new IllegalArgumentException("Kein Mitarbeiter verfügbar!");
+        return zugeteilterMitarbeiter;
     }
 }
