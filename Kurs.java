@@ -1,4 +1,4 @@
-import java.lang.classfile.TypeAnnotation.LocalVarTarget;
+
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -11,6 +11,8 @@ public class Kurs {
     private LocalDate endeKurs;
     private int anzahlKurstage = 0;
     private ArrayList<Modul> module;
+    
+
     private ArrayList<Teilnehmer> teilnehmers;
     // private ArrayList<Mitarbeiter> trainers;
     private final int MAX_TEILNEHMER = 8;
@@ -30,15 +32,33 @@ public class Kurs {
         // trainers = new ArrayList<>();
     }
 
+    public LocalDate getStartKurs() {
+        return startKurs;
+    }
+
+    public LocalDate getEndeKurs() {
+        return endeKurs;
+    }
+
     public void addModul(Modul modul) {
         int tageCounter = 0;
         Kategorie suchKategorie = kategorie;
         tageCounter = getAufgabenPool(tageCounter, suchKategorie);
         if (tageCounter < modul.getModulTage())
             throw new IllegalArgumentException("Nicht genügend Aufgaben für das Modul!");
-        
-        ermittleMitarbeiter(modul);
-        this.module.add(modul);
+        LocalDate startModul = endeKurs.plusDays(1); // bestimme das Startdatum vom Modul
+        LocalDate endeModul = berechneModulEnde(modul); // bestimme das Ende vom Modul
+        Mitarbeiter zugeteilterMitarbeiter = ermittleMitarbeiter(modul, startModul, endeModul); // ermittle den
+                                                                                                // verfügbaren
+                                                                                                // Mitarbeiter
+        modul.setZugeteilterMitarbeiter(zugeteilterMitarbeiter); // Mitarbeiter wird dem Modul zugeordnet
+        this.endeKurs = endeModul; // legen das neue Kursende fest
+        this.module.add(modul); // fügen das Modul dem Kurs hinzu
+        modul.setStartModul(startModul); // geben dem Modul ein Startdatum
+        modul.setEndeModul(endeModul);// geben dem Modul ein Enddatum
+        Buchung buchung = new Buchung(startModul, endeModul, modul.getName()); // erstellen neue Buchung für den
+                                                                               // Mitarbeiter
+        zugeteilterMitarbeiter.addBuchung(buchung);// erstellte Buchung wird der Liste Buchungen Mitarbeiter hinzugefügt
     }
 
     private int getAufgabenPool(int tageCounter, Kategorie suchKategorie) {
@@ -77,16 +97,14 @@ public class Kurs {
         return verfuegbareMitarbeiter;
     }
 
-    public Mitarbeiter ermittleMitarbeiter (Modul modul) {
+    public Mitarbeiter ermittleMitarbeiter(Modul modul, LocalDate startModul, LocalDate endeModul) {
         Mitarbeiter zugeteilterMitarbeiter = null;
         int anzahlMinKurse = 0;
-        
         for (Mitarbeiter mitarbeiter : ermittleLinzensiertenTrainer(modul)) {
+            if (mitarbeiter.getBuchungen().size() == 0)
+                return mitarbeiter;
             for (Buchung buchung : mitarbeiter.getBuchungen()) {
-                if (mitarbeiter.getBuchungen().size() == 0)
-                    return mitarbeiter;
-                    
-                if (endeKurs.isBefore(buchung.getStartDatum()) && startKurs.isAfter(buchung.getEndeDatum())) {
+                if (endeModul.isBefore(buchung.getStartDatum()) && startModul.isAfter(buchung.getEndeDatum())) {
                     int anzahlKurse = mitarbeiter.getBuchungen().size();
                     if (anzahlKurse < anzahlMinKurse) {
                         anzahlMinKurse = anzahlKurse;
@@ -94,7 +112,7 @@ public class Kurs {
                     }
                 }
             }
-        } 
+        }
         if (zugeteilterMitarbeiter == null)
             throw new IllegalArgumentException("Kein Mitarbeiter verfügbar!");
         return zugeteilterMitarbeiter;

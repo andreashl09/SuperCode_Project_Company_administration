@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Modul {
@@ -7,6 +8,8 @@ public class Modul {
     private int modulTage = 0;
     private Kategorie brauchLizenz;
     private Mitarbeiter zugeteilterMitarbeiter;
+    private LocalDate startModul;
+    private LocalDate endeModul;
  
 
     public Modul(String name, Kategorie brauchLizenz, int modulTage) {
@@ -61,6 +64,22 @@ public class Modul {
 
     public Mitarbeiter getZugeteilterMitarbeiter() {
         return zugeteilterMitarbeiter;
+    }
+
+    public LocalDate getStartModul() {
+        return startModul;
+    }
+
+    public void setStartModul(LocalDate startModul) {
+        this.startModul = startModul;
+    }
+
+    public LocalDate getEndeModul() {
+        return endeModul;
+    }
+
+    public void setEndeModul(LocalDate endeModul) {
+        this.endeModul = endeModul;
     }
     
     

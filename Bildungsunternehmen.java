@@ -37,4 +37,8 @@ public class Bildungsunternehmen {
     public void addAufgabe(Aufgabe aufgabe) {
         this.aufgabenPool.add(aufgabe);
     }
+
+    public void addMitarbeiter(Mitarbeiter mitarbeiter) {
+        this.mitarbeiterListe.add(mitarbeiter);
+    }
 }
