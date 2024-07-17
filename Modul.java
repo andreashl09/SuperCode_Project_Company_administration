@@ -3,6 +3,8 @@ import java.util.ArrayList;
 
 public class Modul {
 
+    private static int idCounter;
+    private int id;
     private String name;
     private ArrayList<Aufgabe> aufgaben;
     private int modulTage = 0;
@@ -13,6 +15,8 @@ public class Modul {
  
 
     public Modul(String name, Kategorie brauchLizenz, int modulTage) {
+        this.id = idCounter;
+        idCounter++;
         setModulTage(modulTage);
         this.name = name;
         this.brauchLizenz = brauchLizenz;
@@ -30,6 +34,10 @@ public class Modul {
 
     public String getName() {
         return name;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public void setName(String name) {

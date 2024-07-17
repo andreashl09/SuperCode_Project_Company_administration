@@ -1,10 +1,7 @@
 
-
 import java.util.ArrayList;
 
 public class Person {
-    private static int idCounter;
-    private int id;
     private String vorname;
     private String nachname;
     private Adresse adresse;
@@ -14,8 +11,6 @@ public class Person {
         this.vorname = newVorname;
         this.nachname = newNachname;
         this.adresse = newAdresse;
-        this.id = idCounter;
-        idCounter++;
         buchungen = new ArrayList<>();
     }
 
@@ -25,10 +20,6 @@ public class Person {
 
     public String getNachname() {
         return this.nachname;
-    }
-
-    public int getId() {
-        return this.id;
     }
 
     public String printPerson() {
@@ -41,5 +32,11 @@ public class Person {
 
     public void addBuchung(Buchung buchung) {
         this.buchungen.add(buchung);
+    }
+
+    public void printBuchungen() {
+        for (Buchung buchung : buchungen) {
+            System.out.println(buchung.printBuchung());
+        }
     }
 }

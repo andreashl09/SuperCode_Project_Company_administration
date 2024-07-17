@@ -23,5 +23,9 @@ public class Buchung {
     public String getName() {
         return name;
     }
-    
+
+    public String printBuchung() {
+        return "Modul: " +this.name + "Start: " + this.startDatum + " Ende: " + this.endeDatum; 
+    }
+
 }

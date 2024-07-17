@@ -5,17 +5,17 @@ public class Bildungsunternehmen {
     private String name;
     private String inhaber;
     private LocalDate gruendungdatum;
-    private String unternehmensKategorie;
+    private UnternehmensKategorie unternehmensKategorie;
     private ArrayList<Teilnehmer> kundenListe;
     private ArrayList<Mitarbeiter> mitarbeiterListe;
     private ArrayList<Aufgabe> aufgabenPool;
     private ArrayList<Kurs> kursListe;
 
-    public Bildungsunternehmen(String name, String inhaber, LocalDate gruendungdatum, String unternehmensKategorie) {
+    public Bildungsunternehmen(String name, String inhaber, LocalDate gruendungdatum, UnternehmensKategorie kategorie) {
         this.name = name;
         this.inhaber = inhaber;
         this.gruendungdatum = gruendungdatum;
-        this.unternehmensKategorie = unternehmensKategorie;
+        this.unternehmensKategorie = kategorie;
         kundenListe = new ArrayList<>();
         mitarbeiterListe = new ArrayList<>();
         aufgabenPool = new ArrayList<>();
@@ -41,4 +41,10 @@ public class Bildungsunternehmen {
     public void addMitarbeiter(Mitarbeiter mitarbeiter) {
         this.mitarbeiterListe.add(mitarbeiter);
     }
+
+    public ArrayList<Kurs> getKursListe() {
+        return kursListe;
+    }
+
+
 }

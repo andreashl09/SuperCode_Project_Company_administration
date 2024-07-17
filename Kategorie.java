@@ -3,6 +3,8 @@ public enum Kategorie {
     SPRING,
     WEBENTWICKLUNG,
     SCRUM,
+    CSS,
+    JAVASCRIPT
                             
 
 }

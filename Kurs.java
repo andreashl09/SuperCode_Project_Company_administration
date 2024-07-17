@@ -42,6 +42,14 @@ public class Kurs {
         return this.module;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     public void addModul(Modul modul) {
         int tageCounter = 0;
         Kategorie suchKategorie = kategorie;
@@ -113,11 +121,11 @@ public class Kurs {
             if (mitarbeiter.getBuchungen().size() == 0)
                 return mitarbeiter;
             for (Buchung buchung : mitarbeiter.getBuchungen()) {
-                System.out.println("Start Modul: " + startModul + " Buchung ende:" + endeModul);
-                System.out.println(startModul.isAfter(buchung.getEndeDatum()));
-                System.out.println("Buchung start: " + buchung.getStartDatum()+ " Buchung ende:" + buchung.getEndeDatum());
-                System.out.println(endeModul.isAfter(buchung.getStartDatum()));
-                if (endeModul.isAfter(buchung.getStartDatum()) && startModul.isAfter(buchung.getEndeDatum())) {
+
+                LocalDate buchungStart = buchung.getStartDatum();
+                LocalDate buchungEnde = buchung.getEndeDatum();
+
+                if (buchungStart.isBefore(endeModul) && startModul.isAfter(buchungEnde)) {
                     int anzahlKurse = mitarbeiter.getBuchungen().size();
                     if (anzahlKurse > anzahlMinKurse) {
                         anzahlMinKurse = anzahlKurse;
