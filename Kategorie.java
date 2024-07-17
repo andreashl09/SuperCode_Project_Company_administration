@@ -1,4 +1,8 @@
 public enum Kategorie {
-    JAVA
+    JAVA,
+    SPRING,
+    WEBENTWICKLUNG,
+    SCRUM,
+                            
 
 }

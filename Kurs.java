@@ -11,8 +11,6 @@ public class Kurs {
     private LocalDate endeKurs;
     private int anzahlKurstage = 0;
     private ArrayList<Modul> module;
-    
-
     private ArrayList<Teilnehmer> teilnehmers;
     // private ArrayList<Mitarbeiter> trainers;
     private final int MAX_TEILNEHMER = 8;
@@ -40,14 +38,24 @@ public class Kurs {
         return endeKurs;
     }
 
+    public ArrayList<Modul> getModule() {
+        return this.module;
+    }
+
     public void addModul(Modul modul) {
         int tageCounter = 0;
         Kategorie suchKategorie = kategorie;
         tageCounter = getAufgabenPool(tageCounter, suchKategorie);
         if (tageCounter < modul.getModulTage())
             throw new IllegalArgumentException("Nicht genügend Aufgaben für das Modul!");
-        LocalDate startModul = endeKurs.plusDays(1); // bestimme das Startdatum vom Modul
-        LocalDate endeModul = berechneModulEnde(modul); // bestimme das Ende vom Modul
+        LocalDate startModul;
+        if (anzahlKurstage == 0)
+            startModul = this.endeKurs;
+        else
+            startModul = this.endeKurs.plusDays(1);
+        // bestimme das Startdatum vom Modul
+        LocalDate endeModul = berechneModulEnde(modul, startModul); // bestimme das Ende vom
+        // Modul
         Mitarbeiter zugeteilterMitarbeiter = ermittleMitarbeiter(modul, startModul, endeModul); // ermittle den
                                                                                                 // verfügbaren
                                                                                                 // Mitarbeiter
@@ -59,6 +67,7 @@ public class Kurs {
         Buchung buchung = new Buchung(startModul, endeModul, modul.getName()); // erstellen neue Buchung für den
                                                                                // Mitarbeiter
         zugeteilterMitarbeiter.addBuchung(buchung);// erstellte Buchung wird der Liste Buchungen Mitarbeiter hinzugefügt
+        anzahlKurstage += modul.getModulTage();
     }
 
     private int getAufgabenPool(int tageCounter, Kategorie suchKategorie) {
@@ -77,9 +86,9 @@ public class Kurs {
         teilnehmers.add(teilnehmer);
     }
 
-    public LocalDate berechneModulEnde(Modul modul) {
-        LocalDate endeModul = endeKurs;
-        for (int i = 0; i < modul.getModulTage() - 1; i++) {
+    public LocalDate berechneModulEnde(Modul modul, LocalDate startModul) {
+        LocalDate endeModul = startModul.plusDays(1);
+        for (int i = 1; i < modul.getModulTage() - 1; i++) {
             endeModul = endeModul.plusDays(endeModul.getDayOfWeek() == DayOfWeek.FRIDAY ? 3 : 1);
         }
         return endeModul;
@@ -104,9 +113,13 @@ public class Kurs {
             if (mitarbeiter.getBuchungen().size() == 0)
                 return mitarbeiter;
             for (Buchung buchung : mitarbeiter.getBuchungen()) {
-                if (endeModul.isBefore(buchung.getStartDatum()) && startModul.isAfter(buchung.getEndeDatum())) {
+                System.out.println("Start Modul: " + startModul + " Buchung ende:" + endeModul);
+                System.out.println(startModul.isAfter(buchung.getEndeDatum()));
+                System.out.println("Buchung start: " + buchung.getStartDatum()+ " Buchung ende:" + buchung.getEndeDatum());
+                System.out.println(endeModul.isAfter(buchung.getStartDatum()));
+                if (endeModul.isAfter(buchung.getStartDatum()) && startModul.isAfter(buchung.getEndeDatum())) {
                     int anzahlKurse = mitarbeiter.getBuchungen().size();
-                    if (anzahlKurse < anzahlMinKurse) {
+                    if (anzahlKurse > anzahlMinKurse) {
                         anzahlMinKurse = anzahlKurse;
                         zugeteilterMitarbeiter = mitarbeiter;
                     }
