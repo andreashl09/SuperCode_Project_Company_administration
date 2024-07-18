@@ -3,6 +3,7 @@ package Kurs_Klassen;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.function.Function;
 
 import Enum.*;
 import Person_Klassen.*;
@@ -17,7 +18,7 @@ public class Kurs {
     private int anzahlKurstage = 0;
     private ArrayList<Modul> module;
     private ArrayList<Teilnehmer> teilnehmerListe;
-    private ArrayList<Mitarbeiter> mitarbeiterse;
+    private ArrayList<Mitarbeiter> mitarbeiterListe;
     private final int MAX_TEILNEHMER = 8;
     private Bildungsunternehmen unternehmen;
     private Kategorie kategorie;
@@ -32,7 +33,7 @@ public class Kurs {
         this.endeKurs = startKurs;
         module = new ArrayList<>();
         teilnehmerListe = new ArrayList<>();
-        mitarbeiterse = new ArrayList<>();
+        mitarbeiterListe = new ArrayList<>();
     }
 
     public LocalDate getStartKurs() {
@@ -99,7 +100,7 @@ public class Kurs {
 
         Buchung buchung = new Buchung(startModul, endeModul, modul.getName());
         zugeteilterMitarbeiter.addBuchung(buchung);
-        mitarbeiterse.add(zugeteilterMitarbeiter);
+        mitarbeiterListe.add(zugeteilterMitarbeiter);
         anzahlKurstage += modul.getModulTage();
     }
 
@@ -142,13 +143,36 @@ public class Kurs {
         return verfuegbareMitarbeiter;
     }
 
+    public Mitarbeiter isTrainerInVerfuegbareMitarbeiter(Modul modul) {
+        ArrayList<Mitarbeiter> liste = ermittleLinzensiertenMitarbeiter(modul);
+        for (Mitarbeiter mitarbeiter : liste) {
+            for (Mitarbeiter mitarbeiter2 : mitarbeiterListe) {
+                if (mitarbeiter == mitarbeiter2)
+                    return mitarbeiter;
+            }
+        }
+        return null;
+    }
+
     public Mitarbeiter ermittleMitarbeiter(Modul modul, LocalDate startModul, LocalDate endeModul) {
         Mitarbeiter zugeteilterMitarbeiter = null;
         int anzahlMinKurse = 0;
+        if (!module.isEmpty()) {
+            Mitarbeiter favMitarbeiter = isTrainerInVerfuegbareMitarbeiter(modul);
+            if (favMitarbeiter != null) {
+                for (Buchung buchungMitarbeiter : favMitarbeiter.getBuchungen()) {
+                    LocalDate buchungStart = buchungMitarbeiter.getStartDatum();
+                    LocalDate buchungEnde = buchungMitarbeiter.getEndeDatum();
+                    if (buchungStart.isBefore(endeModul) && startModul.isAfter(buchungEnde)) {
+                        return favMitarbeiter;
+                    }
+                }
+            }
+        }
+
         for (Mitarbeiter mitarbeiter : ermittleLinzensiertenMitarbeiter(modul)) {
             if (mitarbeiter.getBuchungen().isEmpty())
                 return mitarbeiter;
-
             for (Buchung buchung : mitarbeiter.getBuchungen()) {
                 LocalDate buchungStart = buchung.getStartDatum();
                 LocalDate buchungEnde = buchung.getEndeDatum();
@@ -189,4 +213,35 @@ public class Kurs {
         return bewertung;
     }
 
+        
+    public int ermittleKursbewertung() {
+        int bewertung = 0;
+        if (teilnehmerListe.isEmpty())
+            return bewertung;
+        for (Teilnehmer teilnehmer : teilnehmerListe) {
+            bewertung += teilnehmer.getBewertung();
+        }
+        bewertung/=teilnehmerListe.size();
+        return bewertung;
+    }
+
+    // public double ermittleDurchschnitt(Function<Teilnehmer, Integer>
+    // bewertungsFunktion) {
+    // if (teilnehmerListe.isEmpty()) {
+    // return 0;
+    // }
+    // double summe = 0;
+    // for (Teilnehmer teilnehmer : teilnehmerListe) {
+    // summe += bewertungsFunktion.apply(teilnehmer);
+    // }
+    // return summe / teilnehmerListe.size();
+    // }
+
+    // public double ermittleDurchschnittSterne() {
+    // return ermittleDurchschnitt(Teilnehmer::getBewertung);
+    // }
+
+    // public double ermittleDurchschnittTage() {
+    // return ermittleDurchschnitt(Teilnehmer::ermittleDifferenzTage);
+    // }
 }

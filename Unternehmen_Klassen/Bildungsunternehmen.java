@@ -136,13 +136,27 @@ public class Bildungsunternehmen {
         System.out.flush();
     }
 
-    public double[][] vergleichKursbewertung(Function<Kurs, Double> bewertungsFunktion) {
-        double[][] kursbewertung = new double[kursListe.size()][2];
+    public double[][] vergleichKursbewertungSterne() {
         int index = 0;
-        for (int i = 0; i < kursListe.size(); i++) {
+        double[][] kursbewertung = new double[kursListe.size()][2];
+        for (int i = 0; i < kursListe.size() - 1; i++) {
             for (Kurs kurs : kursListe) {
                 kursbewertung[i][0] = index;
-                kursbewertung[i][1] = bewertungsFunktion.apply(kurs);
+                kursbewertung[i][1] = kurs.ermittleKursbewertung();
+                index++;
+            }
+        }
+        return sortiereArray(kursbewertung);
+
+    }
+
+    public double[][] vergleichKursbewertungTage() {
+        int index = 0;
+        double[][] kursbewertung = new double[kursListe.size()][2];
+        for (int i = 0; i < kursListe.size() - 1; i++) {
+            for (Kurs kurs : kursListe) {
+                kursbewertung[i][0] = index;
+                kursbewertung[i][1] = kurs.ermittleDurchschnittTage();
                 index++;
             }
         }
@@ -165,8 +179,9 @@ public class Bildungsunternehmen {
         return array;
     }
 
-    public void vergleichKursbewertungSterne() {
-        double[][] array = vergleichKursbewertung(Kurs::ermittleDurchschnittSterne);
+    public void KursbewertungSterne() {
+        double[][] array = vergleichKursbewertungSterne();
+
         int arrayMax = array.length - 1;
         System.out.println("Kursbewertung nach Sternen:");
         System.out.println("Bester Kurs: " + kursListe.get((int) array[0][0]).getId()
@@ -175,8 +190,8 @@ public class Bildungsunternehmen {
                 + " mit einer durchschnittlicher Bewertung von: " + array[arrayMax][1]);
     }
 
-    public void vergleichKursbewertungTage() {
-        double[][] array = vergleichKursbewertung(Kurs::ermittleDurchschnittTage);
+    public void KursbewertungTage() {
+        double[][] array = vergleichKursbewertungTage();
         int arrayMax = array.length - 1;
         System.out.println("Kursbewertung nach Vermittlungsdauer in Tagen:");
         System.out.println("Bester Kurs: " + kursListe.get((int) array[arrayMax][0]).getId()
@@ -188,9 +203,9 @@ public class Bildungsunternehmen {
     public void printBewertungen() {
         System.out.println("Bewertungen Kurse:");
         System.out.println("---------------------------------------------");
-        vergleichKursbewertungSterne();
+        KursbewertungSterne();
         System.out.println("---------------------------------------------");
-        vergleichKursbewertungTage();
+        KursbewertungTage();
         System.out.println("---------------------------------------------");
     }
 }
