@@ -1,14 +1,18 @@
 package Person_Klassen;
 
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.Period;
+
+import Kurs_Klassen.Kurs;
 
 public class Teilnehmer extends Person {
-    private static int idCounter;
+    private static int idCounter = 1;
     private int id;
     private boolean hatJob;
     private LocalDate vermitteltAm;
-    private Buchung gebuchterKurs;
-    private int bewertung = 0; //des Kurses 1-5, 1-schlecht 5-gut
+    private Kurs gebuchterKurs;
+    private int bewertung = 0; // des Kurses 1-5, 1-schlecht 5-gut
     private String feedback = "";
 
     public Teilnehmer(String newVorname, String newNachname, Adresse newAdresse) {
@@ -47,7 +51,7 @@ public class Teilnehmer extends Person {
         return vermitteltAm;
     }
 
-    public Buchung getGebuchterKurs() {
+    public Kurs getGebuchterKurs() {
         return gebuchterKurs;
     }
 
@@ -55,7 +59,7 @@ public class Teilnehmer extends Person {
         return id;
     }
 
-    public void setGebuchterKurs(Buchung gebuchterKurs) {
+    public void setGebuchterKurs(Kurs gebuchterKurs) {
         this.gebuchterKurs = gebuchterKurs;
     }
 
@@ -75,5 +79,17 @@ public class Teilnehmer extends Person {
     public void bewertungAbgeben(int bewertung, String feedback) {
         setBewertung(bewertung);
         setFeedback(feedback);
+    }
+
+    public int ermittleDifferenzTage() {
+        int tagDifferenz;
+        LocalDate endeKurs = this.gebuchterKurs.getEndeKurs();
+        if (endeKurs.isAfter(vermitteltAm))
+            tagDifferenz = 0;
+        tagDifferenz = Period.between(endeKurs, vermitteltAm).getDays();
+        if (!this.hatJob) {
+            tagDifferenz = 365;
+        }
+        return tagDifferenz;
     }
 }

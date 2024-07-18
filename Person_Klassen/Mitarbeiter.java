@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import Enum.Kategorie;
 
 public class Mitarbeiter extends Person {
-    private static int idCounter;
+    private static int idCounter = 1;
     private int id;
     private ArrayList<Kategorie> lizenzliste;
     private ArrayList<Buchung> buchungen;

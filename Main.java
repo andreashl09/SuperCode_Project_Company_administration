@@ -85,7 +85,6 @@ public class Main {
                 Kurs kurs1 = new Kurs("Java lerne", LocalDate.now(), Kategorie.JAVASCRIPT, unternehmen1);
                 Kurs kurs2 = new Kurs("Java lerne", LocalDate.now(), Kategorie.JAVASCRIPT, unternehmen1);
                 unternehmen1.addKurs(kurs1);
-                unternehmen1.addKurs(kurs1);
                 // Kurs kurs2 = new Kurs("Java lernen", LocalDate.now(), Kategorie.JAVA,
                 // unternehmen1);
                 Modul java1 = new Modul("Java Grundlagen", Kategorie.JAVA, 6);
@@ -107,5 +106,6 @@ public class Main {
 
                 // unternehmen1.zeigeMitarbeiterDiagramm();
 
+                unternehmen1.printBewertungen();
         }
 }

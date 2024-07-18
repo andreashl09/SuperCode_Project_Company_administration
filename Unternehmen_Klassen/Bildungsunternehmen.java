@@ -4,6 +4,7 @@ import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.function.Function;
 
 import Enum.*;
 import Kurs_Klassen.*;
@@ -129,19 +130,67 @@ public class Bildungsunternehmen {
             System.out.println("");
         }
     }
+
     public static void ClearConsole() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
 
-    public void vergleichKursbewertung() {
-        int[][] kursbewertung = new int[kursListe.size()][2];
+    public double[][] vergleichKursbewertung(Function<Kurs, Double> bewertungsFunktion) {
+        double[][] kursbewertung = new double[kursListe.size()][2];
+        int index = 0;
         for (int i = 0; i < kursListe.size(); i++) {
             for (Kurs kurs : kursListe) {
-                kursbewertung[i][0] = kurs.getId();
-                kursbewertung[i][1] = kurs.ermittleKursbewertung();
+                kursbewertung[i][0] = index;
+                kursbewertung[i][1] = bewertungsFunktion.apply(kurs);
+                index++;
             }
         }
-        
+        return sortiereArray(kursbewertung);
+
+    }
+
+    public double[][] sortiereArray(double[][] array) {
+        for (int i = 0; i < array.length - 1; i++) {
+            if (array[i][1] < array[i + 1][1]) {
+                double speicherZwischen = array[i][1];
+                array[i][1] = array[i + 1][1];
+                array[i + 1][1] = speicherZwischen;
+
+                speicherZwischen = array[i][0];
+                array[i][0] = array[i + 1][0];
+                array[i + 1][0] = speicherZwischen;
+            }
+        }
+        return array;
+    }
+
+    public void vergleichKursbewertungSterne() {
+        double[][] array = vergleichKursbewertung(Kurs::ermittleDurchschnittSterne);
+        int arrayMax = array.length - 1;
+        System.out.println("Kursbewertung nach Sternen:");
+        System.out.println("Bester Kurs: " + kursListe.get((int) array[0][0]).getId()
+                + " mit einer durchschnittlicher Bewertung von: " + array[0][1]);
+        System.out.println("Schlechtester Kurs: " + kursListe.get((int) array[arrayMax][0]).getId()
+                + " mit einer durchschnittlicher Bewertung von: " + array[arrayMax][1]);
+    }
+
+    public void vergleichKursbewertungTage() {
+        double[][] array = vergleichKursbewertung(Kurs::ermittleDurchschnittTage);
+        int arrayMax = array.length - 1;
+        System.out.println("Kursbewertung nach Vermittlungsdauer in Tagen:");
+        System.out.println("Bester Kurs: " + kursListe.get((int) array[arrayMax][0]).getId()
+                + " mit durchschnittlichen: " + array[arrayMax][1] + " Tagen bis zur Vermittlung");
+        System.out.println("Schlechtester Kurs: " + kursListe.get((int) array[0][0]).getId()
+                + " mit durchschnittlichen: " + array[0][1] + " Tagen bis zur Vermittlung");
+    }
+
+    public void printBewertungen() {
+        System.out.println("Bewertungen Kurse:");
+        System.out.println("---------------------------------------------");
+        vergleichKursbewertungSterne();
+        System.out.println("---------------------------------------------");
+        vergleichKursbewertungTage();
+        System.out.println("---------------------------------------------");
     }
 }

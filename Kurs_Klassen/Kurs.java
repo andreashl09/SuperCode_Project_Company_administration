@@ -9,7 +9,7 @@ import Person_Klassen.*;
 import Unternehmen_Klassen.*;
 
 public class Kurs {
-    private static int kursIdCounter;
+    private static int kursIdCounter = 1;
     private int id;
     private String name;
     private LocalDate startKurs;
@@ -119,6 +119,7 @@ public class Kurs {
         if (teilnehmerListe.size() >= MAX_TEILNEHMER)
             throw new IllegalArgumentException("Teilnehmeranzahl überschritten!");
         teilnehmerListe.add(teilnehmer);
+        teilnehmer.setGebuchterKurs(this);
     }
 
     public LocalDate berechneModulEnde(Modul modul, LocalDate startModul) {
@@ -166,14 +167,26 @@ public class Kurs {
         return zugeteilterMitarbeiter;
     }
 
-    public int ermittleKursbewertung() {
-        int bewertung = 0;
+    public double ermittleDurchschnittSterne() {
+        double bewertung = 0;
         if (teilnehmerListe.isEmpty())
             return bewertung;
         for (Teilnehmer teilnehmer : teilnehmerListe) {
             bewertung += teilnehmer.getBewertung();
         }
-        bewertung/=teilnehmerListe.size();
+        bewertung /= teilnehmerListe.size();
         return bewertung;
     }
+
+    public double ermittleDurchschnittTage() {
+        double bewertung = 0;
+        if (teilnehmerListe.isEmpty())
+            return bewertung;
+        for (Teilnehmer teilnehmer : teilnehmerListe) {
+            bewertung += teilnehmer.ermittleDifferenzTage();
+        }
+        bewertung /= teilnehmerListe.size();
+        return bewertung;
+    }
+
 }
