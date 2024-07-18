@@ -16,7 +16,7 @@ public class Kurs {
     private LocalDate endeKurs;
     private int anzahlKurstage = 0;
     private ArrayList<Modul> module;
-    private ArrayList<Teilnehmer> teilnehmers;
+    private ArrayList<Teilnehmer> teilnehmerListe;
     private ArrayList<Mitarbeiter> mitarbeiterse;
     private final int MAX_TEILNEHMER = 8;
     private Bildungsunternehmen unternehmen;
@@ -31,7 +31,7 @@ public class Kurs {
         this.startKurs = startKurs;
         this.endeKurs = startKurs;
         module = new ArrayList<>();
-        teilnehmers = new ArrayList<>();
+        teilnehmerListe = new ArrayList<>();
         mitarbeiterse = new ArrayList<>();
     }
 
@@ -55,6 +55,23 @@ public class Kurs {
         return name;
     }
 
+    public ArrayList<Teilnehmer> getTeilnehmerListe() {
+        return teilnehmerListe;
+    }
+
+    public void checkTeilnehmerListeEmpty() {
+        if (!teilnehmerListe.isEmpty())
+            throw new IllegalArgumentException(
+                    "Modul kann nicht hinzugefügt werden, weil bereits Teilnehmer eingetragen sind!");
+    }
+
+    public void checkDoppeltesModul(Modul modul) {
+        for (Modul moduls : module) {
+            if (moduls == modul)
+                throw new IllegalArgumentException("Modul ist bereits im Kurs vorhanden!");
+        }
+    }
+
     public void addModul(Modul modul) {
         // Prüfung, ob ausreichend Aufgaben für das Modul vorhanden sind,
         // Startdatum des Moduls wird festgelegt, Enddatum des Moduls wird berechnet,
@@ -64,6 +81,8 @@ public class Kurs {
         // Neues Enddatum für den Kurs wird berechnet und gesetzt,
         // neue Buchung wird erzeugt, Mitarbeiter bekommt diese Buchung in seine Liste
         // geschrieben
+        checkDoppeltesModul(modul);
+        checkTeilnehmerListeEmpty();
         if (aufgabenUmfangInTage() < modul.getModulTage())
             throw new IllegalArgumentException("Nicht genügend Aufgaben für das Modul!");
 
@@ -96,9 +115,10 @@ public class Kurs {
     }
 
     public void addTeilnehmer(Teilnehmer teilnehmer) {
-        if (teilnehmers.size() >= MAX_TEILNEHMER)
+        unternehmen.isTeilnehmerInAnderenKurs(teilnehmer); // Prüft nur ob, Teilnehmer schon einen anderen Kurs besucht
+        if (teilnehmerListe.size() >= MAX_TEILNEHMER)
             throw new IllegalArgumentException("Teilnehmeranzahl überschritten!");
-        teilnehmers.add(teilnehmer);
+        teilnehmerListe.add(teilnehmer);
     }
 
     public LocalDate berechneModulEnde(Modul modul, LocalDate startModul) {

@@ -8,12 +8,22 @@ public class Mitarbeiter extends Person {
     private static int idCounter;
     private int id;
     private ArrayList<Kategorie> lizenzliste;
+    private ArrayList<Buchung> buchungen;
 
     public Mitarbeiter(String newVorname, String newNachname, Adresse newAdresse) {
         super(newVorname, newNachname, newAdresse);
         this.lizenzliste = new ArrayList<>();
         this.id = idCounter;
         idCounter++;
+        buchungen = new ArrayList<>();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public ArrayList<Buchung> getBuchungen() {
+        return buchungen;
     }
 
     public ArrayList<Kategorie> getLizenzliste() {
@@ -28,8 +38,8 @@ public class Mitarbeiter extends Person {
         lizenzliste.add(kategorie);
     }
 
-    public int getId() {
-        return id;
+    public void addBuchung(Buchung buchung) {
+        this.buchungen.add(buchung); 
     }
 
     public void mitarbeiterDaten() {
@@ -37,6 +47,12 @@ public class Mitarbeiter extends Person {
         System.out.println("Folgende Lizenzen:");
         for (Kategorie kategorie : lizenzliste) {
             System.out.println(kategorie);
+        }
+    }
+
+    public void printBuchungen() {
+        for (Buchung buchung : buchungen) {
+            System.out.println(buchung.printBuchung());
         }
     }
 

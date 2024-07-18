@@ -45,11 +45,19 @@ public class Bildungsunternehmen {
         return aufgabenPool;
     }
 
+    public ArrayList<Kurs> getKursListe() {
+        return kursListe;
+    }
+
     public void addAufgabe(Aufgabe aufgabe) {
         this.aufgabenPool.add(aufgabe);
     }
 
     public void addMitarbeiter(Mitarbeiter mitarbeiter) {
+        for (Mitarbeiter mitarbeiters : mitarbeiterListe) {
+            if (mitarbeiters == mitarbeiter)
+                throw new IllegalArgumentException("Mitarbeiter bereits vorhanden!");
+        }
         this.mitarbeiterListe.add(mitarbeiter);
     }
 
@@ -57,8 +65,14 @@ public class Bildungsunternehmen {
         this.teilnehmerListe.add(teilnehmer);
     }
 
-    public ArrayList<Kurs> getKursListe() {
-        return kursListe;
+    public void addKurs(Kurs newKurs) {
+        System.out.println(newKurs);
+        for (Kurs kurs : kursListe) {
+        System.out.println(kurs);
+        if (kurs == newKurs)
+        throw new IllegalArgumentException("Kurs bereits vorhanden!");
+        }
+        this.kursListe.add(newKurs);
     }
 
     public String getName() {
@@ -83,10 +97,19 @@ public class Bildungsunternehmen {
         }
     }
 
+    public void isTeilnehmerInAnderenKurs(Teilnehmer teilnehmer) {
+        for (Kurs kurs : kursListe) {
+            for (Teilnehmer teilnehmend : kurs.getTeilnehmerListe()) {
+                if (teilnehmend == teilnehmer)
+                    throw new IllegalArgumentException("Der Teilnehmer ist schon einem Kurs schon zugeordnet!");
+            }
+        }
+    }
+
     // ---
     public void zeigeMitarbeiterDiagramm() {
         ClearConsole();
-        System.out.println("Mitarbeiter Auswertung: \n");
+        System.out.println("Mitarbeiter Auswertung gegebene Module: \n");
         mitarbeiterListe.sort(
                 Comparator.comparingInt((Mitarbeiter mitarbeiter) -> mitarbeiter.getBuchungen().size()).reversed());
         for (Mitarbeiter mitarbeiter : mitarbeiterListe) {
@@ -97,13 +120,13 @@ public class Bildungsunternehmen {
                 System.out.print("|");
             } else {
                 for (int i = 0; i < gebuchteKurse * 3; i++) {
-                    
+
                     System.out.print(ANSI_WHITE_BACKGROUND + " " + ANSI_RESET);
                 }
             }
-            
+
             System.out.print(" " + mitarbeiter.getVorname() + " " + mitarbeiter.getNachname());
-            System.out.print(" | Kurse: " + gebuchteKurse+ "\n");
+            System.out.print(" | Module: " + gebuchteKurse + "\n");
             System.out.println("");
         }
     }
