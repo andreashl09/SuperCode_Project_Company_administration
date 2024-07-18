@@ -82,13 +82,10 @@ public class Main {
                 unternehmen1.addAufgabe(new Aufgabe("Schleifen (for, while, do-while)",
                                 Kategorie.JAVA, 2));
 
-                unternehmen1.addKurs(new Kurs("Java lerne", LocalDate.now(),
-                                Kategorie.JAVASCRIPT, unternehmen1));
-                System.out.println(unternehmen1.getKursListe().get(0));
-                unternehmen1.addKurs(
-                        new Kurs("Java lernen", LocalDate.now().plusDays(1), Kategorie.JAVA,
-                        unternehmen1));
-                        System.out.println(unternehmen1.getKursListe().get(1));
+                Kurs kurs1 = new Kurs("Java lerne", LocalDate.now(), Kategorie.JAVASCRIPT, unternehmen1);
+                Kurs kurs2 = new Kurs("Java lerne", LocalDate.now(), Kategorie.JAVASCRIPT, unternehmen1);
+                unternehmen1.addKurs(kurs1);
+                unternehmen1.addKurs(kurs1);
                 // Kurs kurs2 = new Kurs("Java lernen", LocalDate.now(), Kategorie.JAVA,
                 // unternehmen1);
                 Modul java1 = new Modul("Java Grundlagen", Kategorie.JAVA, 6);

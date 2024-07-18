@@ -31,6 +31,7 @@ public class Bildungsunternehmen {
         mitarbeiterListe = new ArrayList<>();
         aufgabenPool = new ArrayList<>();
         kursListe = new ArrayList<>();
+
     }
 
     public ArrayList<Teilnehmer> getTeilnehmerListe() {
@@ -66,11 +67,9 @@ public class Bildungsunternehmen {
     }
 
     public void addKurs(Kurs newKurs) {
-        System.out.println(newKurs);
         for (Kurs kurs : kursListe) {
-        System.out.println(kurs);
-        if (kurs == newKurs)
-        throw new IllegalArgumentException("Kurs bereits vorhanden!");
+            if (kurs == newKurs)
+                throw new IllegalArgumentException("Kurs bereits vorhanden!");
         }
         this.kursListe.add(newKurs);
     }
