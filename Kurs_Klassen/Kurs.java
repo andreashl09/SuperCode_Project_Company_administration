@@ -165,4 +165,15 @@ public class Kurs {
             throw new IllegalArgumentException("Kein Mitarbeiter verfügbar!");
         return zugeteilterMitarbeiter;
     }
+
+    public int ermittleKursbewertung() {
+        int bewertung = 0;
+        if (teilnehmerListe.isEmpty())
+            return bewertung;
+        for (Teilnehmer teilnehmer : teilnehmerListe) {
+            bewertung += teilnehmer.getBewertung();
+        }
+        bewertung/=teilnehmerListe.size();
+        return bewertung;
+    }
 }

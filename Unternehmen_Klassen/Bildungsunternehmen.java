@@ -129,9 +129,19 @@ public class Bildungsunternehmen {
             System.out.println("");
         }
     }
-
     public static void ClearConsole() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
+    }
+
+    public void vergleichKursbewertung() {
+        int[][] kursbewertung = new int[kursListe.size()][2];
+        for (int i = 0; i < kursListe.size(); i++) {
+            for (Kurs kurs : kursListe) {
+                kursbewertung[i][0] = kurs.getId();
+                kursbewertung[i][1] = kurs.ermittleKursbewertung();
+            }
+        }
+        
     }
 }
