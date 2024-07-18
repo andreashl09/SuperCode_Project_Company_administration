@@ -2,6 +2,7 @@ package Kurs_Klassen;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.function.Function;
 
@@ -213,7 +214,6 @@ public class Kurs {
         return bewertung;
     }
 
-        
     public int ermittleKursbewertung() {
         int bewertung = 0;
         if (teilnehmerListe.isEmpty())
@@ -221,27 +221,35 @@ public class Kurs {
         for (Teilnehmer teilnehmer : teilnehmerListe) {
             bewertung += teilnehmer.getBewertung();
         }
-        bewertung/=teilnehmerListe.size();
+        bewertung /= teilnehmerListe.size();
         return bewertung;
     }
 
-    // public double ermittleDurchschnitt(Function<Teilnehmer, Integer>
-    // bewertungsFunktion) {
-    // if (teilnehmerListe.isEmpty()) {
-    // return 0;
-    // }
-    // double summe = 0;
-    // for (Teilnehmer teilnehmer : teilnehmerListe) {
-    // summe += bewertungsFunktion.apply(teilnehmer);
-    // }
-    // return summe / teilnehmerListe.size();
-    // }
+    public String formatiereDatum(LocalDate datum) {
+        DateTimeFormatter format1 = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        return datum.format(format1);
+    }
 
-    // public double ermittleDurchschnittSterne() {
-    // return ermittleDurchschnitt(Teilnehmer::getBewertung);
-    // }
+    public void printKursPlusModule() {
+        System.out.println(
+                "Kurs " + this.getId() + " - " + this.getName() + " (Teilnehmer: " + teilnehmerListe.size() + ")");
+        if (module.isEmpty())
+            System.out.println("Noch keine Module zugeordnet. \nGeplantes Startdatum: " + this.startKurs);
 
-    // public double ermittleDurchschnittTage() {
-    // return ermittleDurchschnitt(Teilnehmer::ermittleDifferenzTage);
-    // }
+        for (Modul modul : module) {
+            System.out.println(formatiereDatum(modul.getStartModul()) + " - " + formatiereDatum(modul.getEndeModul())
+                    + " | " + modul.getName() + " | " + modul.getZugeteilterMitarbeiter().getVorname() + " "
+                    + modul.getZugeteilterMitarbeiter().getNachname());
+
+        }
+    }
+
+    public void printTeilnehmerBewertungen() {
+        System.out.println("Bewertung der Teilnehmer von Kurs:");
+        for (Teilnehmer teilnehmer : teilnehmerListe) {
+            teilnehmer.printFeedback();
+            System.out.println("");
+        }
+
+    }
 }

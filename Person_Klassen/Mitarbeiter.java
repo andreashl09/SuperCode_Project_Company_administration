@@ -54,6 +54,7 @@ public class Mitarbeiter extends Person {
         for (Buchung buchung : buchungen) {
             System.out.println(buchung.printBuchung());
         }
+        System.out.println("");
     }
 
 }

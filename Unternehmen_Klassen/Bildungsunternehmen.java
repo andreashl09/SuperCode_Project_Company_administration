@@ -1,10 +1,8 @@
 package Unternehmen_Klassen;
 
-import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.function.Function;
 
 import Enum.*;
 import Kurs_Klassen.*;
@@ -207,5 +205,12 @@ public class Bildungsunternehmen {
         System.out.println("---------------------------------------------");
         KursbewertungTage();
         System.out.println("---------------------------------------------");
+    }
+
+    public void printAlleKurse() {
+        for (Kurs kurs : kursListe) {
+            kurs.printKursPlusModule();
+            System.out.println("");
+        }
     }
 }

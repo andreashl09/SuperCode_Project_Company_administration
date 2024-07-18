@@ -1,6 +1,5 @@
 package Person_Klassen;
 
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -26,7 +25,7 @@ public class Teilnehmer extends Person {
     }
 
     public void setBewertung(int bewertung) {
-        if (bewertung != 0)
+        if (this.bewertung != 0)
             throw new IllegalArgumentException("Bewertung wurde bereits abgegeben und kann nicht geändert werden!");
         if (bewertung > 5 || bewertung < 1)
             throw new IllegalArgumentException("Bewertung nicht im Rahmen der Zulässigkeit!");
@@ -38,7 +37,7 @@ public class Teilnehmer extends Person {
     }
 
     public void setFeedback(String newFeedback) {
-        if (newFeedback != "")
+        if (this.feedback != "")
             throw new IllegalArgumentException("Feedback wurde schon gegeben und kann nicht geändert werden!");
         if (newFeedback.length() > 250) {
             newFeedback.substring(0, 250);
@@ -91,5 +90,21 @@ public class Teilnehmer extends Person {
             tagDifferenz = 365;
         }
         return tagDifferenz;
+    }
+
+    public void printFeedback() {
+        if (bewertung != 0) {
+            System.out.println(
+                    "ID: " + this.getId() + " Name: " + this.getVorname() + " " + this.getNachname() + " | Kurs ID: "
+                            + this.getGebuchterKurs().getId() + " - " + this.getGebuchterKurs().getName());
+            System.out.println("Bewertung: " + this.bewertung);
+            System.out.println("Feedback:");
+            System.out.println(feedback);
+        } else {
+            System.out.println(
+                    "ID: " + this.getId() + " Name: " + this.getVorname() + " " + this.getNachname()
+                            + " hat keine Bewertung abgegeben!");
+        }
+
     }
 }
