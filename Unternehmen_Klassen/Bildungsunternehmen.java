@@ -190,9 +190,10 @@ public class Bildungsunternehmen {
         int arrayMax = array.length - 1;
         System.out.println("Kursbewertung nach Sternen:");
         System.out.println("Bester Kurs: " + kursListe.get((int) array[0][0]).getId()
-                + " mit einer durchschnittlicher Bewertung von: " + array[0][1]);
+                + " mit einer durchschnittlicher Bewertung von: " + (Math.round(10 * array[0][1])) / 10.0);
+        ;
         System.out.println("Schlechtester Kurs: " + kursListe.get((int) array[arrayMax][0]).getId()
-                + " mit einer durchschnittlicher Bewertung von: " + array[arrayMax][1]);
+                + " mit einer durchschnittlicher Bewertung von: " + (Math.round(10 * array[arrayMax][1])) / 10.0);
     }
 
     public void KursbewertungTage() {
@@ -200,9 +201,10 @@ public class Bildungsunternehmen {
         int arrayMax = array.length - 1;
         System.out.println("Kursbewertung nach Vermittlungsdauer in Tagen:");
         System.out.println("Bester Kurs: " + kursListe.get((int) array[arrayMax][0]).getId()
-                + " mit durchschnittlichen: " + array[arrayMax][1] + " Tagen bis zur Vermittlung");
+                + " mit durchschnittlichen: " + (Math.round(10 * array[arrayMax][1])) / 10.0
+                + " Tagen bis zur Vermittlung");
         System.out.println("Schlechtester Kurs: " + kursListe.get((int) array[0][0]).getId()
-                + " mit durchschnittlichen: " + array[0][1] + " Tagen bis zur Vermittlung");
+                + " mit durchschnittlichen: " + (Math.round(10 * array[0][1])) / 10.0 + " Tagen bis zur Vermittlung");
     }
 
     public void printBewertungen() {

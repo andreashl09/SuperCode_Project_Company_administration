@@ -14,7 +14,8 @@ public class Verwaltung {
                 // Erstellung der Testobjekte
                 erstelleMitarbeiter(unternehmen1);
                 erstelleTeilnehmer(unternehmen1, 30);
-                erstelleAufgabe(unternehmen1, 100);
+                erstelleAufgabe(unternehmen1, 100); // - erfordliche Menge an Aufgaben für die Erstellung der Module,
+                                                    // Aufgaben 1 bis 3 Tage
                 erstelleModule(unternehmen1, 20);
 
                 // Kurse erstellen und adden
@@ -30,29 +31,49 @@ public class Verwaltung {
                 // Module zu Kursen hinzufügen
                 addModulZumKurs(unternehmen1, 0, 0);
                 addModulZumKurs(unternehmen1, 1, 0);
-                addModulZumKurs(unternehmen1, 2, 0);
+                addModulZumKurs(unternehmen1, 3, 0);
+                addModulZumKurs(unternehmen1, 4, 0);
+                addModulZumKurs(unternehmen1, 5, 0);
+                addModulZumKurs(unternehmen1, 3, 1);
+                addModulZumKurs(unternehmen1, 4, 1);
+                addModulZumKurs(unternehmen1, 5, 1);
+                // addModulZumKurs(unternehmen1, 5, 0); //- Fehler: doppeltes Modul kann nicht
+                // hinzgefügt werden
+                // - wenn nicht genügend Trainer für die Menge der Module vorhanden sind, kann
+                // Modul nicht zum Kurs hinzugefügt werden
+                // - wenn Trainer nicht die passende Lizenz hat, kann dieser nicht hinzugfügt
+                // werden
 
                 // Teilnehmer zu Kurse hinzufügen
                 addTeilnehmerZuKurs(unternehmen1, 0, 0);
                 addTeilnehmerZuKurs(unternehmen1, 1, 0);
                 addTeilnehmerZuKurs(unternehmen1, 2, 0);
+                addTeilnehmerZuKurs(unternehmen1, 3, 1);
+                addTeilnehmerZuKurs(unternehmen1, 4, 1);
+                addTeilnehmerZuKurs(unternehmen1, 5, 1);
+                addTeilnehmerZuKurs(unternehmen1, 6, 1);
+                addTeilnehmerZuKurs(unternehmen1, 7, 1);
+                addTeilnehmerZuKurs(unternehmen1, 8, 1);
+                // addTeilnehmerZuKurs(unternehmen1, 8, 1); //- Teilnehmer kann nicht doppelt
+                // hizugefügt werden
 
-                unternehmen1.printAlleKurse();
-                teilnehmerGibtBewertungAb(unternehmen1, 1, 5, "Läuft alles!");
-                teilnehmerGibtBewertungAb(unternehmen1, 0, 5, "Läuft alles!");
-                teilnehmerHatNeuenJob(unternehmen1, 0, LocalDate.of(2014, 9, 13));
+                teilnehmerGibtBewertungAb(unternehmen1, 1, 5, "Alles KNORKE!");
+                teilnehmerGibtBewertungAb(unternehmen1, 0, 5, "STABILER KURS");
+                teilnehmerGibtBewertungAb(unternehmen1, 8, 5, "Java ist auch eine Insel");
+                // teilnehmerGibtBewertungAb(unternehmen1, 20, 5, "STABILER KURS"); //-
+                // Teilnehmer kann nur eine Bewertung abgeben für seinen gebuchte Kurs
+                // teilnehmerGibtBewertungAb(unternehmen1, 0, 5, "STABILER KURS"); //- Bewertung
+                // kann nach abgeben nicht mehr geändertt werden
+                teilnehmerHatNeuenJob(unternehmen1, 0, LocalDate.of(2024, 9, 13));
+                teilnehmerHatNeuenJob(unternehmen1, 8, LocalDate.of(2024, 12, 13));
 
+                // * Diverse Ausgaben
+                // unternehmen1.printAlleKurse();
                 // unternehmen1.printAufgabenListe();
                 // unternehmen1.printModulListe();
                 // unternehmen1.getTeilnehmerListe().get(0).printFeedback();
-                kurs1.printTeilnehmerBewertungen();
-                // for (Mitarbeiter mitarbeiter : unternehmen1.mitarbeiter.getBuchungen()) {
-                // mitarbeiter10.printBuchungen();
-                // }
-
-                // unternehmen1.printAlleKurse();
+                // kurs1.printTeilnehmerBewertungen();
                 // unternehmen1.zeigeMitarbeiterDiagramm();
-
                 unternehmen1.printBewertungen();
         }
 
@@ -92,13 +113,11 @@ public class Verwaltung {
                         for (Teilnehmer teilnehmer1 : kurs.getTeilnehmerListe()) {
                                 if (teilnehmer1.getId() == teilnehmerId) {
                                         teilnehmer1.bewertungAbgeben(bewertungKurs, feedback);
-                                        System.out.println("Bewertung wurde hinzugefügt");
                                         return;
                                 }
                         }
                 }
                 System.out.println("Teilnehmer hat an keinen Kurs teilgenommen");
-
         }
 
         public static void teilnehmerHatNeuenJob(Bildungsunternehmen unternehmen, int teilnehmerid, LocalDate datum) {

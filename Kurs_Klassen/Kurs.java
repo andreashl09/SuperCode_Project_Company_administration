@@ -214,8 +214,8 @@ public class Kurs {
         return bewertung;
     }
 
-    public int ermittleKursbewertung() {
-        int bewertung = 0;
+    public double ermittleKursbewertung() {
+        double bewertung = 0;
         if (teilnehmerListe.isEmpty())
             return bewertung;
         for (Teilnehmer teilnehmer : teilnehmerListe) {

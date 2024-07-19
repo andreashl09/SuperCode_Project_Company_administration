@@ -84,6 +84,8 @@ public class ErstelleTestObjekte {
         mitarbeiter10.addLizenz(Kategorie.JAVA);
         mitarbeiter10.addLizenz(Kategorie.CSS);
         unternehmen.addMitarbeiter(mitarbeiter10);
+        // unternehmen.addMitarbeiter(mitarbeiter10); //- Mitarbeiter kann nicht doppelt hinzugefügt werden
+
     }
 
     public static void erstelleTeilnehmerUndFuegeHinzu(Bildungsunternehmen unternehmen, int anzahl) {
