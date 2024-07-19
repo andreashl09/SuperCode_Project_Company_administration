@@ -93,6 +93,12 @@ public class Modul {
     public void setEndeModul(LocalDate endeModul) {
         this.endeModul = endeModul;
     }
+
+    @Override
+    public String toString() {
+        return "Modul [id=" + id + ", name=" + name + ", modulTage=" + modulTage + ", benoetigteLizenz="
+                + benoetigteLizenz + "]";
+    }
     
     
 

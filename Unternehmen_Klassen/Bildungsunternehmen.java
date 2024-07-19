@@ -20,6 +20,7 @@ public class Bildungsunternehmen {
     private ArrayList<Mitarbeiter> mitarbeiterListe;
     private ArrayList<Aufgabe> aufgabenPool;
     private ArrayList<Kurs> kursListe;
+    private ArrayList<Modul> modulListe;
 
     public Bildungsunternehmen(String name, String inhaber, LocalDate gruendungdatum, UnternehmensKategorie kategorie) {
         this.name = name;
@@ -30,7 +31,12 @@ public class Bildungsunternehmen {
         mitarbeiterListe = new ArrayList<>();
         aufgabenPool = new ArrayList<>();
         kursListe = new ArrayList<>();
+        modulListe = new ArrayList<>();
 
+    }
+
+    public ArrayList<Modul> getModulListe() {
+        return modulListe;
     }
 
     public ArrayList<Teilnehmer> getTeilnehmerListe() {
@@ -51,6 +57,10 @@ public class Bildungsunternehmen {
 
     public void addAufgabe(Aufgabe aufgabe) {
         this.aufgabenPool.add(aufgabe);
+    }
+
+    public void addModulZuListe(Modul modul) {
+        this.modulListe.add(modul);
     }
 
     public void addMitarbeiter(Mitarbeiter mitarbeiter) {
@@ -137,12 +147,12 @@ public class Bildungsunternehmen {
     public double[][] vergleichKursbewertungSterne() {
         int index = 0;
         double[][] kursbewertung = new double[kursListe.size()][2];
-        for (int i = 0; i < kursListe.size() - 1; i++) {
-            for (Kurs kurs : kursListe) {
-                kursbewertung[i][0] = index;
-                kursbewertung[i][1] = kurs.ermittleKursbewertung();
-                index++;
-            }
+
+        for (Kurs kurs : kursListe) {
+            kursbewertung[index][0] = index;
+            kursbewertung[index][1] = kurs.ermittleKursbewertung();
+            index++;
+
         }
         return sortiereArray(kursbewertung);
 
@@ -151,15 +161,12 @@ public class Bildungsunternehmen {
     public double[][] vergleichKursbewertungTage() {
         int index = 0;
         double[][] kursbewertung = new double[kursListe.size()][2];
-        for (int i = 0; i < kursListe.size() - 1; i++) {
-            for (Kurs kurs : kursListe) {
-                kursbewertung[i][0] = index;
-                kursbewertung[i][1] = kurs.ermittleDurchschnittTage();
-                index++;
-            }
+        for (Kurs kurs : kursListe) {
+            kursbewertung[index][0] = index;
+            kursbewertung[index][1] = kurs.ermittleDurchschnittTage();
+            index++;
         }
         return sortiereArray(kursbewertung);
-
     }
 
     public double[][] sortiereArray(double[][] array) {
@@ -211,6 +218,18 @@ public class Bildungsunternehmen {
         for (Kurs kurs : kursListe) {
             kurs.printKursPlusModule();
             System.out.println("");
+        }
+    }
+
+    public void printAufgabenListe() {
+        for (Aufgabe aufgabe : aufgabenPool) {
+            System.out.println(aufgabe.toString());
+        }
+    }
+
+    public void printModulListe() {
+        for (Modul modul : modulListe) {
+            System.out.println(modul.toString());
         }
     }
 }

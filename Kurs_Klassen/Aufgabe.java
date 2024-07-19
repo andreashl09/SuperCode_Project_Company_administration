@@ -36,4 +36,12 @@ public class Aufgabe {
         this.aufgabeTage = aufgabeTage;
     }
 
+    @Override
+    public String toString() {
+        return "Aufgabe [name=" + name + ", aufgabeTage=" + aufgabeTage + ", kategorie="
+                + kategorie + "]";
+    }
+
+    
+
 }

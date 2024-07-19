@@ -6,10 +6,10 @@ import java.time.Period;
 import Kurs_Klassen.Kurs;
 
 public class Teilnehmer extends Person {
-    private static int idCounter = 1;
+    private static int idCounter = 0;
     private int id;
     private boolean hatJob;
-    private LocalDate vermitteltAm;
+    private LocalDate vermitteltAm = null;
     private Kurs gebuchterKurs;
     private int bewertung = 0; // des Kurses 1-5, 1-schlecht 5-gut
     private String feedback = "";
@@ -82,10 +82,13 @@ public class Teilnehmer extends Person {
 
     public int ermittleDifferenzTage() {
         int tagDifferenz;
+
+        if (vermitteltAm == null)
+            return 365;
         LocalDate endeKurs = this.gebuchterKurs.getEndeKurs();
         if (endeKurs.isAfter(vermitteltAm))
             tagDifferenz = 0;
-        tagDifferenz = Period.between(endeKurs, vermitteltAm).getDays();
+        tagDifferenz = Period.between(vermitteltAm, endeKurs).getDays();
         if (!this.hatJob) {
             tagDifferenz = 365;
         }
